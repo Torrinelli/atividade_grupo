@@ -1,0 +1,113 @@
+/* Paleta de Cores e Variáveis */
+:root {
+    --amarelo-ouro: #FFD600;
+    --verde-neon: #00FF66;
+    --branco: #FFFFFF;
+    --glass-bg: rgba(15, 38, 24, 0.45); /* Fundo verde-escuro bem translúcido */
+    --glass-border: rgba(255, 214, 0, 0.25); /* Borda dourada sutil */
+}
+
+/* Configuração do Fundo Estendido */
+body {
+    background-image: url("https://png.pngtree.com/background/20221127/original/pngtree-brazil-flag-background-smoke-free-hd-picture-image_1965406.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh;
+    color: var(--branco);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+}
+
+/* Títulos Principais */
+.site-title {
+    font-size: 3.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--branco);
+    text-shadow: 0px 4px 15px rgba(0, 0, 0, 0.6);
+}
+
+.text-secondary-custom {
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 400;
+    text-shadow: 0px 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+/* Efeito Glow / Neon Dourado */
+.text-yellow-neon {
+    color: var(--amarelo-ouro);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 1.5rem;
+    text-shadow: 0 0 12px rgba(255, 214, 0, 0.4);
+}
+
+.text-yellow {
+    color: var(--amarelo-ouro) !important;
+}
+
+/* O Super Card Customizado (Efeito Glassmorphism) */
+.card-custom {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px); /* Desfoca o fundo da fumaça atrás do card */
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Animação flutuante ao passar o mouse nos cards */
+.card-custom:hover {
+    transform: translateY(-8px);
+    border-color: var(--amarelo-ouro);
+    box-shadow: 0 12px 40px 0 rgba(255, 214, 0, 0.15);
+}
+
+/* Botões Customizados Estilo Outline Glow */
+.btn-outline-warning {
+    color: var(--branco) !important;
+    border: 2px solid var(--amarelo-ouro) !important;
+    background-color: transparent;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-warning:hover {
+    background-color: var(--amarelo-ouro) !important;
+    color: #0F2618 !important; /* Texto escuro para dar leitura ao fundo amarelo */
+    box-shadow: 0 0 15px rgba(255, 214, 0, 0.5);
+    transform: scale(1.02);
+}
+
+/* Lista de Adversários Estilizada */
+.list-group-item {
+    font-size: 1.05rem;
+    padding: 18px 10px !important;
+    transition: padding-left 0.3s ease;
+}
+
+/* Efeito de empurrãozinho ao passar o mouse nas linhas dos adversários */
+.list-group-item:hover {
+    padding-left: 15px !important;
+    background: rgba(255, 255, 255, 0.03) !important;
+}
+
+/* Classes Dinâmicas criadas pelo JS para o Quiz */
+.btn-correto {
+    background-color: #198754 !important;
+    border-color: #198754 !important;
+    color: var(--branco) !important;
+    box-shadow: 0 0 15px rgba(25, 135, 84, 0.5);
+}
+
+.btn-errado {
+    background-color: #dc3545 !important;
+    border-color: #dc3545 !important;
+    color: var(--branco) !important;
+    box-shadow: 0 0 15px rgba(220, 53, 69, 0.5);
+}
