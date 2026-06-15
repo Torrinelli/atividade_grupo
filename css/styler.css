@@ -1,54 +1,204 @@
-.timeline {
-  position: relative;
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 40px 0;
+/* =========================================
+   PALETA DE CORES DO BRASIL
+========================================= */
+:root {
+    --verde-brasil: #009c3b;
+    --amarelo-brasil: #ffdf00;
+    --azul-brasil: #002776;
 }
 
-/* Linha vertical central */
-.timeline::before {
-  content: '';
-  position: absolute;
-  width: 4px;
-  background: #3498db;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  margin-left: -2px;
+/* =========================================
+   CONFIGURAÇÕES GERAIS E VÍDEO DE FUNDO
+========================================= */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+/* Configuração do Vídeo de Fundo do Body */
+.body-bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -2; /* Fica no fundo de tudo */
+}
+
+/* Película escura sobre o vídeo para garantir a leitura do texto */
+.video-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.6); /* Escurece o vídeo em 60% */
+    z-index: -1;
+}
+
+/* Envolve todo o conteúdo para garantir que fique acima do vídeo */
+.content-wrapper {
+    position: relative;
+    z-index: 1;
+}
+
+/* =========================================
+   CABEÇALHO E TÍTULOS
+========================================= */
+.title {
+    text-align: center;
+    color: #ffffff;
+    text-transform: uppercase;
+    text-shadow: 3px 3px 0px var(--verde-brasil), 5px 5px 0px var(--azul-brasil);
+    margin-bottom: 4rem;
+    padding-top: 2rem;
+}
+
+.title h1 {
+    font-weight: 900;
+    font-size: 3.5rem;
+    margin: 0;
+    line-height: 1.1;
+}
+
+.subtitle p {
+    font-size: 1.5rem;
+    color: var(--amarelo-brasil);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
+    margin-top: 15px;
+    font-weight: bold;
+    text-transform: none;
+}
+
+/* =========================================
+   ESTRUTURA DA TIMELINE
+========================================= */
+.timeline {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 0;
+}
+
+/* Linha central amarela */
+.timeline::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    background-color: var(--amarelo-brasil);
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -3px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 223, 0, 0.5); /* Leve brilho na linha */
 }
 
 .timeline-item {
-  position: relative;
-  margin-bottom: 40px;
-  width: 100%;
+    padding: 10px 40px;
+    position: relative;
+    width: 50%;
+    /* Estado inicial invisível para a animação do jQuery */
+    opacity: 0;
+    transform: translateY(50px) scale(0.95);
+    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Bolinhas indicadoras */
+/* Classe ativada pelo jQuery quando o scroll chega no card */
+.timeline-item.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.timeline-item.left { left: 0; }
+.timeline-item.right { left: 50%; }
+
+/* =========================================
+   BOLINHAS (PUNTO) DA TIMELINE
+========================================= */
 .timeline-punto {
-  width: 20px;
-  height: 20px;
-  background: #fff;
-  border: 4px solid #3498db;
-  border-radius: 50%;
-  position: absolute;
-  left: 50%;
-  margin-left: -10px;
-  z-index: 1;
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background-color: var(--azul-brasil);
+    border: 4px solid var(--amarelo-brasil);
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    z-index: 2;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
-/* Caixas de conteúdo alternadas */
+/* Posição da bolinha dependendo se o card está na esquerda ou direita */
+.timeline-item.left .timeline-punto { right: -12px; }
+.timeline-item.right .timeline-punto { left: -12px; }
+
+/* =========================================
+   DESIGN DOS CARDS (CONTEÚDO)
+========================================= */
 .timeline-conteudo {
-  width: 45%;
-  padding: 20px;
-  background: #f8f9fa;
-  border-radius: 6px;
-  position: relative;
+    position: relative;
+    border-radius: 15px;
+    padding: 30px;
+    color: white;
+    /* Fundo verde translúcido (Efeito Glassmorphism) */
+    background: rgba(0, 156, 59, 0.65); 
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    /* Borda e sombra */
+    border: 2px solid rgba(255, 223, 0, 0.5);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    transition: all 0.4s ease;
 }
 
-.timeline-item:nth-child(odd) .timeline-conteudo {
-  left: 0;
+/* Efeito ao passar o rato (hover) por cima do card */
+.timeline-conteudo:hover {
+    background: rgba(0, 39, 118, 0.75); /* Muda para azul translúcido */
+    border-color: var(--amarelo-brasil);
+    transform: translateY(-5px);
 }
 
-.timeline-item:nth-child(even) .timeline-conteudo {
-  left: 55%;
+.timeline-conteudo h2 {
+    color: var(--amarelo-brasil);
+    font-weight: 900;
+    font-size: 2.5rem;
+    margin-bottom: 5px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
+}
+
+.timeline-conteudo h3 {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
+}
+
+.timeline-conteudo p {
+    font-size: 1.1rem;
+    margin: 0;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
+    line-height: 1.6;
+}
+
+/* =========================================
+   RESPONSIVIDADE (TELAS MENORES / CELULAR)
+========================================= */
+@media screen and (max-width: 768px) {
+    .title h1 { font-size: 2.5rem; }
+    .subtitle p { font-size: 1.2rem; }
+    
+    /* Move a linha central para o canto esquerdo */
+    .timeline::after { left: 31px; }
+    
+    /* Faz os cards ocuparem 100% da largura */
+    .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; }
+    .timeline-item.right { left: 0; }
+    
+    /* Ajusta a posição das bolinhas para o canto esquerdo */
+    .timeline-item.left .timeline-punto, 
+    .timeline-item.right .timeline-punto { left: 19px; right: auto; }
 }
