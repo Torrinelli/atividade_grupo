@@ -1,15 +1,15 @@
 /* =========================================
-   PALETA DE CORES DO BRASIL
+   PALETA DE CORES
 ========================================= */
 :root {
     --verde-brasil: #009c3b;
+    --verde-escuro: #004e1d;
     --amarelo-brasil: #ffdf00;
+    --amarelo-neon: #ffe500;
     --azul-brasil: #002776;
+    --fundo-vidro: rgba(5, 15, 25, 0.85); /* Azul/Verde muito escuro para a UI */
 }
 
-/* =========================================
-   CONFIGURAÇÕES GERAIS E VÍDEO DE FUNDO
-========================================= */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     overflow-x: hidden;
@@ -17,7 +17,9 @@ body {
     padding: 0;
 }
 
-/* Configuração do Vídeo de Fundo do Body */
+/* =========================================
+   VÍDEO DE FUNDO
+========================================= */
 .body-bg-video {
     position: fixed;
     top: 0;
@@ -25,34 +27,31 @@ body {
     width: 100vw;
     height: 100vh;
     object-fit: cover;
-    z-index: -2; /* Fica no fundo de tudo */
+    z-index: -2; 
 }
 
-/* Película escura sobre o vídeo para garantir a leitura do texto */
 .video-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.6); /* Escurece o vídeo em 60% */
+    background-color: rgba(0, 0, 0, 0.75); /* Mais escuro para destacar os cards premium */
     z-index: -1;
 }
 
-/* Envolve todo o conteúdo para garantir que fique acima do vídeo */
 .content-wrapper {
     position: relative;
     z-index: 1;
 }
 
 /* =========================================
-   CABEÇALHO E TÍTULOS
+   CABEÇALHO
 ========================================= */
 .title {
     text-align: center;
     color: #ffffff;
     text-transform: uppercase;
-    text-shadow: 3px 3px 0px var(--verde-brasil), 5px 5px 0px var(--azul-brasil);
     margin-bottom: 4rem;
     padding-top: 2rem;
 }
@@ -62,19 +61,18 @@ body {
     font-size: 3.5rem;
     margin: 0;
     line-height: 1.1;
+    text-shadow: 2px 2px 10px rgba(0, 156, 59, 0.5);
 }
 
 .subtitle p {
     font-size: 1.5rem;
     color: var(--amarelo-brasil);
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
-    margin-top: 15px;
     font-weight: bold;
-    text-transform: none;
+    margin-top: 15px;
 }
 
 /* =========================================
-   ESTRUTURA DA TIMELINE
+   ESTRUTURA DA TIMELINE VERTICAL
 ========================================= */
 .timeline {
     position: relative;
@@ -83,31 +81,30 @@ body {
     padding: 40px 0;
 }
 
-/* Linha central amarela */
+/* LINHA CENTRAL: Gradiente da Chuteira (Verde pro Amarelo) 
+*/
 .timeline::after {
     content: '';
     position: absolute;
     width: 6px;
-    background-color: var(--amarelo-brasil);
+    background: linear-gradient(to bottom, var(--verde-brasil) 0%, var(--amarelo-brasil) 50%, var(--verde-brasil) 100%);
     top: 0;
     bottom: 0;
     left: 50%;
     margin-left: -3px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(255, 223, 0, 0.5); /* Leve brilho na linha */
+    box-shadow: 0 0 15px rgba(255, 223, 0, 0.4); 
 }
 
 .timeline-item {
-    padding: 10px 40px;
+    padding: 20px 40px; 
     position: relative;
     width: 50%;
-    /* Estado inicial invisível para a animação do jQuery */
     opacity: 0;
     transform: translateY(50px) scale(0.95);
     transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Classe ativada pelo jQuery quando o scroll chega no card */
 .timeline-item.visible {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -117,88 +114,181 @@ body {
 .timeline-item.right { left: 50%; }
 
 /* =========================================
-   BOLINHAS (PUNTO) DA TIMELINE
+   BOLINHAS E HASTES CONECTORAS
 ========================================= */
+
+/* Bolinhas no centro */
 .timeline-punto {
     position: absolute;
     width: 24px;
     height: 24px;
-    background-color: var(--azul-brasil);
+    background-color: var(--fundo-vidro); /* Fundo escuro igual o card */
     border: 4px solid var(--amarelo-brasil);
     top: 50%;
     transform: translateY(-50%);
     border-radius: 50%;
-    z-index: 2;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    z-index: 3; 
+    box-shadow: 0 0 15px rgba(255, 223, 0, 0.5);
+    transition: all 0.3s ease;
+    
 }
 
-/* Posição da bolinha dependendo se o card está na esquerda ou direita */
+.timeline-item.visible .timeline-punto {
+    background-color: var(--amarelo-brasil);
+    border-color: var(--verde-brasil);
+}
+
 .timeline-item.left .timeline-punto { right: -12px; }
 .timeline-item.right .timeline-punto { left: -12px; }
 
+/* Hastes Conectoras (Linha do centro para o card) */
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    height: 2px; 
+    background: linear-gradient(90deg, var(--verde-brasil), var(--amarelo-brasil));
+    z-index: 1;
+    transform: translateY(-50%);
+    width: 0; /* Começa invisível para animar */
+    transition: width 0.8s ease-out 0.4s;
+}
+
+.timeline-item.visible::before {
+    width: calc(100% - 12px - 30px); 
+}
+
+/* Inverte o gradiente dependendo do lado */
+.timeline-item.left::before { 
+    right: 12px; 
+    background: linear-gradient(270deg, var(--amarelo-brasil), transparent);
+}
+.timeline-item.right::before { 
+    left: 12px; 
+    background: linear-gradient(90deg, var(--amarelo-brasil), transparent);
+}
+
 /* =========================================
-   DESIGN DOS CARDS (CONTEÚDO)
+   DESIGN DOS CARDS (UI Escura + Textura Onça CSS)
 ========================================= */
 .timeline-conteudo {
     position: relative;
-    border-radius: 15px;
+    border-radius: 8px; /* Cantos mais secos como na UI de referência */
     padding: 30px;
     color: white;
-    /* Fundo verde translúcido (Efeito Glassmorphism) */
-    background: rgba(0, 156, 59, 0.65); 
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    /* Borda e sombra */
-    border: 2px solid rgba(255, 223, 0, 0.5);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    
+    /* Fundo escuro premium */
+    background-color: var(--fundo-vidro);
+    
+    /* TEXTURA PURA CSS (Simulando as manchas da camisa sem imagens) */
+    background-image: radial-gradient(rgba(255, 223, 0, 0.03) 2px, transparent 2px),
+                      radial-gradient(rgba(255, 223, 0, 0.02) 2px, transparent 2px);
+    background-size: 24px 24px;
+    background-position: 0 0, 12px 12px;
+    
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    
+    /* Borda superior grossa colorida (Estilo UI moderna) */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 4px solid var(--verde-brasil);
+    
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
     transition: all 0.4s ease;
+    z-index: 2; 
+    background-color: rgba(255, 214, 0, 0);
 }
 
-/* Efeito ao passar o rato (hover) por cima do card */
 .timeline-conteudo:hover {
-    background: rgba(0, 39, 118, 0.75); /* Muda para azul translúcido */
-    border-color: var(--amarelo-brasil);
+    
+    border-top-color: var(--amarelo-neon);
     transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.9), inset 0 0 20px rgba(255, 223, 0, 0.05);
+    
 }
 
+/* O ANO (H2): Gradiente da Chuteira
+*/
 .timeline-conteudo h2 {
-    color: var(--amarelo-brasil);
+    /* Aplica o gradiente direto no texto */
+    background: linear-gradient(to right, var(--amarelo-brasil), var(--verde-brasil));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
     font-weight: 900;
-    font-size: 2.5rem;
-    margin-bottom: 5px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
+    font-size: 3.5rem; /* Número bem destacado */
+    margin: 0 0 10px 0;
+    line-height: 1;
 }
 
 .timeline-conteudo h3 {
     color: #ffffff;
     font-weight: bold;
-    font-size: 1.5rem;
-    margin-bottom: 15px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.9);
+    font-size: 1.4rem;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .timeline-conteudo p {
-    font-size: 1.1rem;
+    font-size: 1rem;
     margin: 0;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.9);
+    color: #a0aec0; /* Cinza claro para leitura confortável no escuro */
     line-height: 1.6;
 }
 
 /* =========================================
-   RESPONSIVIDADE (TELAS MENORES / CELULAR)
+   BOTÃO DE ÁUDIO
+========================================= */
+.button {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 999;
+    background-color: var(--amarelo-brasil);
+    color: var(--azul-brasil);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    font-weight: 900;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+    transition: all 0.3s ease;
+    background-color: rgba(255, 214, 0, 0);
+    
+}
+
+.button:hover {
+    background-color: var(--amarelo-neon);
+    transform: scale(1.05);
+    border-radius: 30px;
+}
+
+/* =========================================
+   RESPONSIVIDADE (CELULARES)
 ========================================= */
 @media screen and (max-width: 768px) {
     .title h1 { font-size: 2.5rem; }
-    .subtitle p { font-size: 1.2rem; }
     
-    /* Move a linha central para o canto esquerdo */
     .timeline::after { left: 31px; }
     
-    /* Faz os cards ocuparem 100% da largura */
-    .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; }
+    .timeline-item { width: 100%; padding-left: 70px; padding-right: 20px; }
     .timeline-item.right { left: 0; }
     
-    /* Ajusta a posição das bolinhas para o canto esquerdo */
     .timeline-item.left .timeline-punto, 
     .timeline-item.right .timeline-punto { left: 19px; right: auto; }
+    
+    .timeline-item.left::before,
+    .timeline-item.right::before {
+        left: 19px;
+        background: linear-gradient(90deg, var(--amarelo-brasil), transparent);
+    }
+
+    .timeline-item.visible::before {
+        width: calc(100% - 19px - 30px);
+    }
+
+    .timeline-conteudo h2 { font-size: 2.8rem; }
+    .btn-audio { bottom: 20px; right: 20px; padding: 10px 20px; font-size: 0.9rem; }
 }
