@@ -1,5 +1,5 @@
 /* =========================================
-   PALETA DE CORES
+   PALETA DE CORES E VARIÁVEIS
 ========================================= */
 :root {
     --verde-brasil: #009c3b;
@@ -7,7 +7,24 @@
     --amarelo-brasil: #ffdf00;
     --amarelo-neon: #ffe500;
     --azul-brasil: #002776;
-    --fundo-vidro: rgba(5, 15, 25, 0.85); /* Azul/Verde muito escuro para a UI */
+    --fundo-vidro: rgba(5, 15, 25, 0.75); /* Levemente mais transparente para realçar o blur */
+}
+
+/* =========================================
+   CUSTOM SCROLLBAR (Barra de rolagem)
+========================================= */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #020810;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--verde-escuro);
+    border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--verde-brasil);
 }
 
 body {
@@ -36,7 +53,7 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.75); /* Mais escuro para destacar os cards premium */
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.85)); /* Gradiente para dar profundidade */
     z-index: -1;
 }
 
@@ -54,14 +71,20 @@ body {
     text-transform: uppercase;
     margin-bottom: 4rem;
     padding-top: 2rem;
+    animation: fadeInDown 1s ease-out; /* Animação suave de entrada */
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .title h1 {
     font-weight: 900;
-    font-size: 3.5rem;
+    font-size: 4rem; /* Um pouco maior para mais impacto */
     margin: 0;
     line-height: 1.1;
-    text-shadow: 2px 2px 10px rgba(0, 156, 59, 0.5);
+    text-shadow: 0px 4px 15px rgba(0, 156, 59, 0.6);
 }
 
 .subtitle p {
@@ -69,6 +92,8 @@ body {
     color: var(--amarelo-brasil);
     font-weight: bold;
     margin-top: 15px;
+    letter-spacing: 1px;
+    text-shadow: 0px 2px 5px rgba(0,0,0,0.8);
 }
 
 /* =========================================
@@ -81,8 +106,7 @@ body {
     padding: 40px 0;
 }
 
-/* LINHA CENTRAL: Gradiente da Chuteira (Verde pro Amarelo) 
-*/
+/* LINHA CENTRAL: Gradiente da Chuteira (Verde pro Amarelo) */
 .timeline::after {
     content: '';
     position: absolute;
@@ -93,7 +117,7 @@ body {
     left: 50%;
     margin-left: -3px;
     border-radius: 10px;
-    box-shadow: 0 0 15px rgba(255, 223, 0, 0.4); 
+    box-shadow: 0 0 20px rgba(255, 223, 0, 0.5); 
 }
 
 .timeline-item {
@@ -101,8 +125,8 @@ body {
     position: relative;
     width: 50%;
     opacity: 0;
-    transform: translateY(50px) scale(0.95);
-    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: translateY(60px) scale(0.9);
+    transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efeito elástico suave */
 }
 
 .timeline-item.visible {
@@ -117,108 +141,111 @@ body {
    BOLINHAS E HASTES CONECTORAS
 ========================================= */
 
+/* Animação de pulso para as bolinhas ativas */
+@keyframes pulso-campeao {
+    0% { box-shadow: 0 0 0 0 rgba(255, 223, 0, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(255, 223, 0, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 223, 0, 0); }
+}
+
 /* Bolinhas no centro */
 .timeline-punto {
     position: absolute;
     width: 24px;
     height: 24px;
-    background-color: var(--fundo-vidro); /* Fundo escuro igual o card */
+    background-color: #050f19;
     border: 4px solid var(--amarelo-brasil);
     top: 50%;
     transform: translateY(-50%);
     border-radius: 50%;
     z-index: 3; 
-    box-shadow: 0 0 15px rgba(255, 223, 0, 0.5);
-    transition: all 0.3s ease;
-    
+    box-shadow: 0 0 15px rgba(255, 223, 0, 0.3);
+    transition: all 0.4s ease;
 }
 
 .timeline-item.visible .timeline-punto {
     background-color: var(--amarelo-brasil);
     border-color: var(--verde-brasil);
+    animation: pulso-campeao 2s infinite; /* Aplica o pulso */
 }
 
 .timeline-item.left .timeline-punto { right: -12px; }
 .timeline-item.right .timeline-punto { left: -12px; }
 
-/* Hastes Conectoras (Linha do centro para o card) */
+/* Hastes Conectoras */
 .timeline-item::before {
     content: '';
     position: absolute;
     top: 50%;
-    height: 2px; 
+    height: 3px; /* Levemente mais grossa */
     background: linear-gradient(90deg, var(--verde-brasil), var(--amarelo-brasil));
     z-index: 1;
     transform: translateY(-50%);
-    width: 0; /* Começa invisível para animar */
-    transition: width 0.8s ease-out 0.4s;
+    width: 0; 
+    transition: width 0.8s ease-out 0.5s; /* Delay sutil para acompanhar o card */
+    box-shadow: 0 0 10px rgba(255, 223, 0, 0.3);
 }
 
 .timeline-item.visible::before {
     width: calc(100% - 12px - 30px); 
 }
 
-/* Inverte o gradiente dependendo do lado */
 .timeline-item.left::before { 
     right: 12px; 
-    background: linear-gradient(270deg, var(--amarelo-brasil), transparent);
+    background: linear-gradient(270deg, var(--amarelo-brasil), rgba(0, 156, 59, 0.1));
 }
 .timeline-item.right::before { 
     left: 12px; 
-    background: linear-gradient(90deg, var(--amarelo-brasil), transparent);
+    background: linear-gradient(90deg, var(--amarelo-brasil), rgba(0, 156, 59, 0.1));
 }
 
 /* =========================================
-   DESIGN DOS CARDS (UI Escura + Textura Onça CSS)
+   DESIGN DOS CARDS (UI Escura + Textura)
 ========================================= */
 .timeline-conteudo {
     position: relative;
-    border-radius: 8px; /* Cantos mais secos como na UI de referência */
+    border-radius: 12px; /* Cantos um pouco mais suaves */
     padding: 30px;
     color: white;
     
-    /* Fundo escuro premium */
+    /* Fundo escuro premium com opacidade corrigida */
     background-color: var(--fundo-vidro);
     
-    /* TEXTURA PURA CSS (Simulando as manchas da camisa sem imagens) */
-    background-image: radial-gradient(rgba(255, 223, 0, 0.03) 2px, transparent 2px),
-                      radial-gradient(rgba(255, 223, 0, 0.02) 2px, transparent 2px);
+    /* TEXTURA PURA CSS */
+    background-image: radial-gradient(rgba(255, 223, 0, 0.04) 2px, transparent 2px),
+                      radial-gradient(rgba(255, 223, 0, 0.03) 2px, transparent 2px);
     background-size: 24px 24px;
     background-position: 0 0, 12px 12px;
     
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     
-    /* Borda superior grossa colorida (Estilo UI moderna) */
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-top: 4px solid var(--verde-brasil);
     
-    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-    transition: all 0.4s ease;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     z-index: 2; 
-    background-color: rgba(255, 214, 0, 0);
 }
 
 .timeline-conteudo:hover {
-    
     border-top-color: var(--amarelo-neon);
-    transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0,0,0,0.9), inset 0 0 20px rgba(255, 223, 0, 0.05);
-    
+    transform: translateY(-8px);
+    /* Adicionado um leve brilho verde e sombra mais profunda */
+    box-shadow: 0 15px 40px rgba(0,0,0,0.9), 
+                inset 0 0 20px rgba(255, 223, 0, 0.05),
+                0 0 20px rgba(0, 156, 59, 0.2); 
 }
 
-/* O ANO (H2): Gradiente da Chuteira
-*/
 .timeline-conteudo h2 {
-    /* Aplica o gradiente direto no texto */
     background: linear-gradient(to right, var(--amarelo-brasil), var(--verde-brasil));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    
     font-weight: 900;
-    font-size: 3.5rem; /* Número bem destacado */
+    font-size: 3.5rem; 
     margin: 0 0 10px 0;
     line-height: 1;
+    filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.5)); /* Sombra para destacar o degradê */
 }
 
 .timeline-conteudo h3 {
@@ -231,45 +258,52 @@ body {
 }
 
 .timeline-conteudo p {
-    font-size: 1rem;
+    font-size: 1.05rem;
     margin: 0;
-    color: #a0aec0; /* Cinza claro para leitura confortável no escuro */
+    color: #e2e8f0; /* Um pouco mais claro para melhor contraste */
     line-height: 1.6;
 }
 
 /* =========================================
    BOTÃO DE ÁUDIO
 ========================================= */
+/* O container fixa o botão no canto */
 .button {
     position: fixed;
     bottom: 30px;
     right: 30px;
     z-index: 999;
-    background-color: var(--amarelo-brasil);
-    color: var(--azul-brasil);
-    border: none;
-    padding: 12px 25px;
-    border-radius: 30px;
-    font-weight: 900;
-    font-size: 1rem;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.8);
-    transition: all 0.3s ease;
-    background-color: rgba(255, 214, 0, 0);
-    
 }
 
-.button:hover {
-    background-color: var(--amarelo-neon);
-    transform: scale(1.05);
-    border-radius: 30px;
+/* Estilo aplicado diretamente à tag <button> */
+#meuBotao {
+    background: linear-gradient(135deg, var(--amarelo-brasil), var(--amarelo-neon));
+    color: var(--azul-brasil);
+    border: none;
+    padding: 14px 28px;
+    border-radius: 50px; /* Mais arredondado, estilo pílula */
+    font-weight: 900;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.6), 0 0 15px rgba(255, 223, 0, 0.3);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
+
+#meuBotao:hover {
+    transform: scale(1.08) translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.8), 0 0 25px rgba(255, 223, 0, 0.6);
+    color: #001540; /* Azul ainda mais escuro no hover */
+}
+
 
 /* =========================================
    RESPONSIVIDADE (CELULARES)
 ========================================= */
 @media screen and (max-width: 768px) {
-    .title h1 { font-size: 2.5rem; }
+    .title h1 { font-size: 2.8rem; }
+    .subtitle p { font-size: 1.2rem; }
     
     .timeline::after { left: 31px; }
     
@@ -282,7 +316,7 @@ body {
     .timeline-item.left::before,
     .timeline-item.right::before {
         left: 19px;
-        background: linear-gradient(90deg, var(--amarelo-brasil), transparent);
+        background: linear-gradient(90deg, var(--amarelo-brasil), rgba(0, 156, 59, 0.1));
     }
 
     .timeline-item.visible::before {
@@ -290,5 +324,7 @@ body {
     }
 
     .timeline-conteudo h2 { font-size: 2.8rem; }
-    .btn-audio { bottom: 20px; right: 20px; padding: 10px 20px; font-size: 0.9rem; }
+    
+    .button { bottom: 20px; right: 20px; }
+    #meuBotao { padding: 12px 20px; font-size: 0.9rem; }
 }
