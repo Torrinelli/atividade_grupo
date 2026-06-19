@@ -1,0 +1,55 @@
+/* Card geral ou efeito no player-card */
+.card {
+    transition: all .3s ease;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 25px rgba(255, 193, 7, 0.5);
+}
+
+/* Configuração do Card do Jogador */
+.player-card {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.player-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 0 25px rgba(255, 193, 7, 0.5);
+}
+
+/* Informações que aparecem no Hover */
+.player-info {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.92); /* O de 0.92 ficou melhor */
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 15px;
+
+    opacity: 0;
+    transition: 0.3s ease;
+}
+
+/* Efeito de aparecer o texto no Hover */
+.player-card:hover .player-info {
+    opacity: 1;
+}
+
+/* Estilização dos textos internos do Hover */
+.player-info h5 {
+    color: #ffc107;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.player-info p {
+    margin: 3px 0;
+}
