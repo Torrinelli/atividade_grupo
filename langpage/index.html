@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Brasil Hexa 2026</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+<button class="menu-btn" onclick="abrirMenu()">
+    ☰ Menu
+</button>
+
+<div id="sidebar" class="sidebar">
+    <button class="fechar-btn" onclick="fecharMenu()">✖</button>
+
+    <a href="#selecao">🇧🇷 Seleção Brasileira</a>
+    <a href="#curiosidade">📖 Curiosidades</a>
+    <a href="#linhatempo">⏳ Linha do Tempo</a>
+</div>
+    <section class="hero">
+
+        <img src="./img/image.png" class="logo">
+
+        <div class="stars">
+            ★ ★ ★ ★ ★
+        </div>
+
+        <h1>BRASIL HEXA</h1>
+
+        <p>
+            A maior seleção da história busca conquistar o sexto título mundial na Copa do Mundo 2026.
+        </p>
+
+    </section>
+
+    <section class="stats">
+
+        <div class="stats-grid">
+
+            <div class="stat">
+                <h3>5</h3>
+                <p>Títulos Mundiais</p>
+            </div>
+
+            <div class="stat">
+                <h3>22</h3>
+                <p>Participações em Copas</p>
+            </div>
+
+            <div class="stat">
+                <h3>200M+</h3>
+                <p>Torcedores</p>
+            </div>
+
+            <div class="stat">
+                <h3>2026</h3>
+                <p>Rumo ao Hexa</p>
+            </div>
+
+        </div>
+
+    </section>
+
+    </div>
+
+    </section>
+
+    <section class="hexa">
+
+        <h2>Rumo ao Hexa</h2>
+
+        <p>
+            A Seleção Brasileira chega à Copa do Mundo de 2026 com uma geração talentosa e o sonho de conquistar a sexta
+            estrela para sua camisa.
+        </p>
+
+    </section>
+
+    <footer>
+        🇧🇷 Brasil • Copa do Mundo 2026 • Rumo ao Hexa
+    </footer>
+
+<script>
+function abrirMenu() {
+    document.getElementById("sidebar").classList.add("ativo");
+}
+
+function fecharMenu() {
+    document.getElementById("sidebar").classList.remove("ativo");
+}
+</script>
+</body>
+
+</html>
